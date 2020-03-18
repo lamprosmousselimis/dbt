@@ -117,6 +117,7 @@ class CompiledSnapshotNode(CompiledNode):
 @dataclass
 class CompiledDataTestNode(CompiledNode):
     resource_type: NodeType = field(metadata={'restrict': [NodeType.Test]})
+    # TODO(jeb): remove this if possible
     column_name: Optional[str] = None
     config: TestConfig = field(default_factory=TestConfig)
 

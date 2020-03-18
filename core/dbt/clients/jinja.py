@@ -491,10 +491,15 @@ def add_rendered_test_kwargs(
                 # TODO(jeb): should this log a deprecation warning?
                 # curly braces to make rendering happy
                 value = f'{{{{ {value} }}}}'
-            value = get_rendered(
+            new_value = get_rendered(
                 value, context, node, capture_macros=capture_macros,
                 native=True
             )
+            # this is an ugly way of checking if the value was a quoted str
+            # (we don't want to unquote column names!)
+            if not (len(value) >= 2 and new_value == value[1:-1]):
+                value = new_value
+
         return value
 
     kwargs = deep_map(_convert_function, node.test_metadata.kwargs)
